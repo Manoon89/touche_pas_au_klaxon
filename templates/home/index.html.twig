@@ -1,20 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>
+        {% if app.user %}
+            Trajets proposés
+        {% else %}
+            Pour obtenir plus d'informations sur un trajet, veuillez vous connecter
+        {% endif %} 
+    </h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Départ</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Destination</th>
+                <th>Date</th>
+                <th>Heure</th>
+                <th>Places</th>
+                {% if app.user %}
+                    <th></th>
+                {% endif %}
+            </tr>
+        </thead>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/xampp/htdocs/touche_pas_au_klaxon/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>C:/xampp/htdocs/touche_pas_au_klaxon/templates/home/index.html.twig</code></li>
-    </ul>
-</div>
+        <tbody>
+            {% for journey in journeys %}
+                <tr>
+                    <td>{{ journey.departureAgency.city }}</td>
+                    <td>{{ journey.departureDate|date('d/m/Y') }}</td>
+                    <td>{{ journey.departureDate|date('H:i') }}</td>
+                    <td>{{ journey.arrivalAgency.city }}</td>
+                    <td>{{ journey.departureAgency }}</td>
+                    <td>{{ journey.arrivalDate|date('d/m/Y') }}</td>
+                    <td>{{ journey.arrivalDate|date('H:i') }}</td>
+                    <td>{{ journey.availableSeats }}</td>
+                    {% if app.user %}
+                        {# TODO #}
+                    {% endif %}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="{% if app.user %}6{% else %}5{% endif %}">Aucun trajet disponible.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

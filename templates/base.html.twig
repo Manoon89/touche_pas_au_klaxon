@@ -4,8 +4,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Touche pas au klaxon{% endblock %}</title>
-        {# Mettre plus tard ici le lien pour le bootstrap CSS}
+        <title>Touche pas au klaxon</title>
+        {# Mettre plus tard ici le lien pour le bootstrap CSS#}
         {% block stylesheets %}
         {% endblock %}
 
@@ -15,7 +15,11 @@
     </head>
 
     <body>
-        <header> </header>
+        <header>
+            <nav>
+                <p> TODO Touche pas au klaxon connexion etc</p>
+            </nav>
+        </header>
 
         <main>
             {% block body %}
@@ -25,11 +29,7 @@
         <footer>
             &copy; {{ "now"|date("Y") }} Touche pas au Klaxon
         </footer>
-        
-        {# Bootstrap JS #}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        {% block javascripts %}
-        {% endblock %}
+
     </body>
 
 </html>

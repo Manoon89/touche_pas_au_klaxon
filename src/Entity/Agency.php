@@ -26,6 +26,11 @@ class Agency
         return $this->city;
     }
 
+    public function __toString(): string
+    {
+        return $this->getCity() ?? '';
+    }
+
     public function setCity(string $city): static
     {
         $this->city = $city;

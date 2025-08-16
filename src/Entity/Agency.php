@@ -13,7 +13,7 @@ class Agency
     #[ORM\Column(name: 'agency_id')]
     private ?int $agencyId = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, unique: true)]
     private ?string $city = null;
 
     public function getAgencyId(): ?int

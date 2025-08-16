@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du trajet{% endblock %}
+
+{% block body %}
+    <h1>Détails du trajet</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Départ</th>
+                <td>
+                    Le {{ journey.departureDate|date('d-m-Y H:i') }} 
+                    à {{ journey.departureAgency.city }}
+                </td>
+            </tr>
+            <tr>
+                <th>Arrivée</th>
+                <td>
+                    Le {{ journey.arrivalDate|date('d-m-Y H:i') }} 
+                    à {{ journey.arrivalAgency.city }}
+                </td>
+            </tr>
+            <tr>
+                <th>Nombre total de sièges</th>
+                <td>{{ journey.totalSeats }}</td>
+            </tr>
+            <tr>
+                <th>Places disponibles</th>
+                <td>{{ journey.availableSeats }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('home') }}">Retour à la liste des trajets</a>
+
+    <a href="{{ path('journey_edit', {'journeyId': journey.id}) }}">Modifier ce trajet</a>
+
+    {{ include('journey/_delete_form.html.twig') }}
+{% endblock %}

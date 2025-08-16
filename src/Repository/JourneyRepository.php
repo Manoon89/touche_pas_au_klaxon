@@ -40,4 +40,18 @@ class JourneyRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findWithAgencies(int $id): ?Journey
+    {
+        return $this->createQueryBuilder('j')
+            ->leftJoin('j.departureAgency', 'da')
+            ->addSelect('da')
+            ->leftJoin('j.arrivalAgency', 'aa')
+            ->addSelect('aa')
+            ->where('j.journeyId = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }

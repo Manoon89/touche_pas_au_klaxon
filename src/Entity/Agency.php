@@ -16,7 +16,7 @@ class Agency
     #[ORM\Column(length: 100, unique: true)]
     private ?string $city = null;
 
-    public function getAgencyId(): ?int
+    public function getId(): ?int
     {
         return $this->agencyId;
     }

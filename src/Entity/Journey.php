@@ -39,7 +39,7 @@ class Journey
     #[ORM\JoinColumn(name: 'arrival_agency_id', referencedColumnName: 'agency_id', nullable: false)]
     private ?Agency $arrivalAgency = null;
 
-    public function getJourneyId(): ?int
+    public function getId(): ?int
     {
         return $this->journeyId;
     }

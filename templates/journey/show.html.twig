@@ -8,26 +8,24 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Départ</th>
+                <th>Auteur</th>
                 <td>
-                    Le {{ journey.departureDate|date('d-m-Y H:i') }} 
-                    à {{ journey.departureAgency.city }}
+                    {{ journey.user.firstName }} {{ journey.user.lastName }} 
                 </td>
             </tr>
             <tr>
-                <th>Arrivée</th>
+                <th>Téléphone</th>
                 <td>
-                    Le {{ journey.arrivalDate|date('d-m-Y H:i') }} 
-                    à {{ journey.arrivalAgency.city }}
+                    {{ journey.user.phone }} 
                 </td>
             </tr>
             <tr>
-                <th>Nombre total de sièges</th>
+                <th>Email</th>
+                <td>{{ journey.user.email }}</td>
+            </tr>
+            <tr>
+                <th>Nombre total de places</th>
                 <td>{{ journey.totalSeats }}</td>
-            </tr>
-            <tr>
-                <th>Places disponibles</th>
-                <td>{{ journey.availableSeats }}</td>
             </tr>
         </tbody>
     </table>

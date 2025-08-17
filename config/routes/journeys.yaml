@@ -1,0 +1,15 @@
+journey_new :
+  path: /journey/new
+  controller: App\Controller\JourneyController::new
+
+journey_show : 
+  path: /journey/{journeyId<\d+>}
+  controller: App\Controller\JourneyController::show
+
+journey_edit : 
+  path: /journey/{journeyId}/edit
+  controller: App\Controller\JourneyController::edit
+
+journey_delete : 
+  path: /journey/{journeyId}/delete
+  controller: App\Controller\JourneyController::delete

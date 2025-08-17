@@ -1,0 +1,15 @@
+agency_index :
+  path: /agency
+  controller: App\Controller\AgencyController::index
+
+agency_new :
+  path: /agency/new
+  controller: App\Controller\AgencyController::new
+
+agency_edit :
+  path: /agency/{agencyId}/edit
+  controller: App\Controller\AgencyController::edit
+
+agency_delete :
+  path: /agency/{agencyId}/delete
+  controller: App\Controller\AgencyController::delete

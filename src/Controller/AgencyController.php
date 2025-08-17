@@ -9,12 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/agency')]
 final class AgencyController extends AbstractController
 {
-    #[Route(name: 'agency_index', methods: ['GET'])]
     public function index(AgencyRepository $agencyRepository): Response
     {
 
@@ -29,7 +26,6 @@ final class AgencyController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'agency_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $agency = new Agency();
@@ -49,7 +45,6 @@ final class AgencyController extends AbstractController
         ]);
     }
 
-    #[Route('/{agencyId}/edit', name: 'agency_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, int $agencyId, AgencyRepository $agencyRepository, EntityManagerInterface $entityManager): Response
     {
         $agency = $agencyRepository->find($agencyId);
@@ -69,7 +64,6 @@ final class AgencyController extends AbstractController
         ]);
     }
 
-    #[Route('/{agencyId}', name: 'agency_delete', methods: ['POST'])]
     public function delete(Request $request, int $agencyId, AgencyRepository $agencyRepository, EntityManagerInterface $entityManager): Response
     {
         $agency = $agencyRepository->find($agencyId);

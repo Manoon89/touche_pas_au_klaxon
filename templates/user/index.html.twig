@@ -3,7 +3,18 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+    <h1>Liste des utilisateurs</h1>
+
+    <a href="{{ path('user_new') }}">Créer un nouvel utilisateur</a>
 
     <table class="table">
         <thead>
@@ -25,18 +36,17 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>
-                    <a href="{{ path('user_edit', {'userId': user.id}) }}">edit</a>
+                    <a href="{{ path('user_edit', {'userId': user.id}) }}">Modifier</a>
                     {{ include('user/_delete_form.html.twig', { user: user }) }}                
 
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun utilisateur n'a été trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}

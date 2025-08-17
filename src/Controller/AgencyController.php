@@ -36,6 +36,8 @@ final class AgencyController extends AbstractController
             $entityManager->persist($agency);
             $entityManager->flush();
 
+            $this->addFlash('success', 'L\'agence a bien été créée');
+
             return $this->redirectToRoute('agency_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -55,6 +57,8 @@ final class AgencyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'L\'agence a bien été modifiée');
+
             return $this->redirectToRoute('agency_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -72,6 +76,8 @@ final class AgencyController extends AbstractController
             $entityManager->remove($agency);
             $entityManager->flush();
         }
+
+        $this->addFlash('success', 'L\'agence a bien été supprimée');
 
         return $this->redirectToRoute('agency_index', [], Response::HTTP_SEE_OTHER);
     }

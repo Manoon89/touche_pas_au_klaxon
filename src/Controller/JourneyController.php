@@ -26,6 +26,8 @@ final class JourneyController extends AbstractController
             $entityManager->persist($journey);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le trajet a bien été créé');
+
             return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -58,6 +60,8 @@ final class JourneyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le trajet a été modifié');
+
             return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -75,6 +79,8 @@ final class JourneyController extends AbstractController
             $entityManager->remove($journey);
             $entityManager->flush();
         }
+
+        $this->addFlash('success', 'Le trajet a été supprimé');
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }

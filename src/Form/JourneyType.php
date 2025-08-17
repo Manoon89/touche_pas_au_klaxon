@@ -19,10 +19,6 @@ class JourneyType extends AbstractType
             ->add('arrivalDate')
             ->add('totalSeats')
             ->add('availableSeats')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
             ->add('departureAgency', EntityType::class, [
                 'class' => Agency::class,
                 'choice_label' => 'city',

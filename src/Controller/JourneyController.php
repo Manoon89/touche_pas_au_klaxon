@@ -19,6 +19,9 @@ final class JourneyController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $journey = new Journey();
+
+        $journey->setUser($this->getUser());
+
         $form = $this->createForm(JourneyType::class, $journey);
         $form->handleRequest($request);
 

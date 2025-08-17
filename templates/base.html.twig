@@ -17,7 +17,17 @@
     <body>
         <header>
             <nav>
-                <p> TODO Touche pas au klaxon connexion etc</p>
+                <p> TODO Touche pas au klaxon </p>
+        {% if app.user %}
+            <div>
+                Bonjour {{ app.user.firstName }} {{ app.user.lastName }}, <a href="{{ path('logout') }}">Logout</a>
+            </div>
+        {% else %}
+            <div>
+                <a href="{{ path('login') }}">Connexion</a>
+            </div>
+
+        {% endif %}
             </nav>
         </header>
 

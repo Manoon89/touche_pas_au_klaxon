@@ -56,17 +56,17 @@ class ImportUsersCommand extends Command
             // Attendu : firstName,lastName,email,phone[,role]
             if (count($data) < 4) { continue; }
 
-            [$firstName, $lastName, $email, $phone] = array_map('trim', array_slice($data, 0, 4));
+            [$lastName, $firstName, $phone, $email] = array_map('trim', array_slice($data, 0, 4));
             $roleFromFile = strtoupper(trim($data[4] ?? 'ROLE_USER'));
 
             // Skip si déjà existant (email unique)
             if ($repo->findOneBy(['email' => $email])) { continue; }
 
             $user = new User();
-            $user->setFirstName($firstName);
             $user->setLastName($lastName);
-            $user->setEmail($email);
+            $user->setFirstName($firstName);
             $user->setPhone($phone);
+            $user->setEmail($email);
 
             // Utilise le hasher Symfony (config security.yaml). En prod il faudra générer un mot de passe aléatoire et l'envoyer par mail
             $hashed = $this->passwordHasher->hashPassword($user, 'defaultPassword');

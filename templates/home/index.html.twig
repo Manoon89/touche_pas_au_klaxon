@@ -43,7 +43,7 @@
                             <a href="{{ path('journey_show', {'journeyId': journey.id}) }}">Détails</a>
                             {% if is_granted('ROLE_ADMIN') or app.user.id == journey.user.id %}
                                 <a href="{{ path('journey_edit', {'journeyId': journey.id}) }}">Modifier</a>
-                                <a href="{{ path('journey_delete', {'journeyId': journey.id}) }}">Supprimer</a>
+                                {{ include('journey/_delete_form.html.twig') }}
                             {% endif %}
                         </td>
                     {% endif %}

@@ -3,6 +3,15 @@
 {% block title %} Touche pas au klaxon {% endblock %}
 
 {% block body %}
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
     <h1>
         {% if app.user %}
             Trajets proposés
@@ -10,6 +19,10 @@
             Pour obtenir plus d'informations sur un trajet, veuillez vous connecter
         {% endif %} 
     </h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('journey_new') }}">Créer un nouveau trajet</a>
+    {% endif %}
 
     <table>
         <thead>
@@ -55,9 +68,5 @@
             {% endfor %}
         </tbody>
     </table>
-
-    {% if app.user %}
-        <a href="{{ path('journey_new') }}">Créer un nouveau trajet</a>
-    {% endif %}
 
 {% endblock %}

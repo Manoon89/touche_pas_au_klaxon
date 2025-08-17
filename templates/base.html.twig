@@ -18,24 +18,31 @@
         <header>
             <nav>
                 <p> TODO Touche pas au klaxon </p>
-        {% if is_granted('ROLE_ADMIN') %}
-            <div>
-                <a href="{{ path('user_index') }}">Utilisateurs</a>
-                <a href="{{ path('agency_index') }}">Agences</a>
-                <a href="{{ path('home') }}">Trajets</a>
-            </div>
-        {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div>
+                        <a href="{{ path('user_index') }}">Utilisateurs</a>
+                        <a href="{{ path('agency_index') }}">Agences</a>
+                        <a href="{{ path('home') }}">Trajets</a>
+                    </div>
+                    <div>
+                        Bonjour {{ app.user.firstName }} {{ app.user.lastName }}, <a href="{{ path('logout') }}">Se déconnecter</a>
+                    </div>
 
-        {% if app.user %}
-            <div>
-                Bonjour {{ app.user.firstName }} {{ app.user.lastName }}, <a href="{{ path('logout') }}">Logout</a>
-            </div>
-        {% else %}
-            <div>
-                <a href="{{ path('login') }}">Connexion</a>
-            </div>
+                {% elseif app.user %}
 
-        {% endif %}
+                    <a href="{{ path('journey_new') }}">Créer un nouveau trajet</a>
+                    <div>
+                        Bonjour {{ app.user.firstName }} {{ app.user.lastName }}, <a href="{{ path('logout') }}">Se déconnecter</a>
+                    </div>
+
+                {% else %}
+
+                    <div>
+                        <a href="{{ path('login') }}">Connexion</a>
+                    </div>
+
+                {% endif %}
+
             </nav>
         </header>
 

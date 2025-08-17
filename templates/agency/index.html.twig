@@ -3,7 +3,18 @@
 {% block title %}Liste des agences{% endblock %}
 
 {% block body %}
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="flash">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
     <h1>Liste des agences</h1>
+
+    <a href="{{ path('agency_new') }}">Créer une nouvelle agence</a>
 
     <table class="table">
         <thead>
@@ -17,17 +28,16 @@
             <tr>
                 <td>{{ agency.city }}</td>
                 <td>
-                    <a href="{{ path('agency_edit', {'agencyId': agency.id}) }}">edit</a>
+                    <a href="{{ path('agency_edit', {'agencyId': agency.id}) }}">Modifier</a>
                     {{ include('agency/_delete_form.html.twig', { agency: agency }) }}                
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">aucune agence n'a été trouvée</td>
+                <td colspan="3">Aucune agence n'a été trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('agency_new') }}">Create new</a>
 {% endblock %}

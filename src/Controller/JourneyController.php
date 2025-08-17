@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class JourneyController extends AbstractController
 {
 
-    #[Route('/new', name: 'app_journey_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'journey_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $journey = new Journey();

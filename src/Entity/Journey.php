@@ -6,6 +6,10 @@ use App\Repository\JourneyRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Agency;
 use App\Entity\User;
+use App\Validator\Constraints as AppAssert;
+
+#[AppAssert\JourneyDates]
+#[AppAssert\JourneyCities]
 
 #[ORM\Entity(repositoryClass: JourneyRepository::class)]
 class Journey
@@ -27,7 +31,7 @@ class Journey
     #[ORM\Column]
     private ?int $availableSeats = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "journeys")]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id', nullable: false)]
     private ?User $user = null;
 

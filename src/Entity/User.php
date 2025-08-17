@@ -8,10 +8,18 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Validator\Constraints as AppAssert;
+
+#[AppAssert\UserDeletion]
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    #[ORM\OneToMany(mappedBy: "user", targetEntity: Journey::class)]
+    private Collection $journeys;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'user_id')]
@@ -122,5 +130,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // TODO : il faudra vider les données sensibles temporaires ici
+    }
+
+        public function __construct()
+    {
+        $this->journeys = new ArrayCollection();
+    }
+
+    public function getJourneys(): Collection
+    {
+        return $this->journeys;
     }
 }

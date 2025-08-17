@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Validator\Constraints\UserDeletion;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class UserController extends AbstractController
 {
@@ -46,19 +48,28 @@ final class UserController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, int $userId, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, int $userId, UserRepository $userRepository, ValidatorInterface $validator, EntityManagerInterface $entityManager): Response
     {
         $user = $userRepository->find($userId);
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            // On valide l'agence avec tous les constraints éventuels
+            $errors = $validator->validate($user);
+    
+            if (count($errors) > 0) {
+                // On affiche le premier message d'erreur dans un flash
+                $this->addFlash('error', $errors[0]->getMessage());
+                return $this->redirectToRoute('user_index');
 
-            $this->addFlash('success', 'L\'utilisateur a bien été modifié');
-            
-            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+            } elseif ($form->isValid()) {
+                $entityManager->flush();
+                $this->addFlash('success', 'L\'utilisateur a bien été modifié');
+                
+                return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('user/edit.html.twig', [
@@ -67,9 +78,17 @@ final class UserController extends AbstractController
         ]);
     }
 
-    public function delete(Request $request, int $userId, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, int $userId, UserRepository $userRepository, ValidatorInterface $validator, EntityManagerInterface $entityManager): Response
     {
         $user = $userRepository->find($userId);
+
+        $errors = $validator->validate($user, new UserDeletion());
+
+        if (count($errors) > 0) {
+            $this->addFlash('error', $errors[0]->getMessage());
+            return $this->redirectToRoute('user_index');
+        }
+
 
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token')))  {
             $entityManager->remove($user);

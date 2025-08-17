@@ -12,6 +12,12 @@
     {% endfor %}
 {% endfor %}
 
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h1>Liste des utilisateurs</h1>
 
     <a href="{{ path('user_new') }}">Créer un nouvel utilisateur</a>

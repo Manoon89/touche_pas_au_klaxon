@@ -9,6 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Validator\Constraints\AgencyDeletion;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class AgencyController extends AbstractController
 {
@@ -47,30 +49,46 @@ final class AgencyController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, int $agencyId, AgencyRepository $agencyRepository, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, int $agencyId, AgencyRepository $agencyRepository, ValidatorInterface $validator, EntityManagerInterface $entityManager): Response
     {
         $agency = $agencyRepository->find($agencyId);
 
         $form = $this->createForm(AgencyType::class, $agency);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            // On valide l'agence avec tous les constraints éventuels
+            $errors = $validator->validate($agency);
+    
+            if (count($errors) > 0) {
+                // On affiche le premier message d'erreur dans un flash
+                $this->addFlash('error', $errors[0]->getMessage());
+                return $this->redirectToRoute('agency_index');
 
-            $this->addFlash('success', 'L\'agence a bien été modifiée');
-
-            return $this->redirectToRoute('agency_index', [], Response::HTTP_SEE_OTHER);
+            } elseif ($form->isValid()) {
+                $entityManager->flush();
+                $this->addFlash('success', 'L\'agence a bien été modifiée');
+                
+                return $this->redirectToRoute('agency_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('agency/edit.html.twig', [
             'agency' => $agency,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
-    public function delete(Request $request, int $agencyId, AgencyRepository $agencyRepository, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, int $agencyId, AgencyRepository $agencyRepository, ValidatorInterface $validator, EntityManagerInterface $entityManager): Response
     {
         $agency = $agencyRepository->find($agencyId);
+
+        $errors = $validator->validate($agency, new AgencyDeletion());
+
+        if (count($errors) > 0) {
+            $this->addFlash('error', $errors[0]->getMessage());
+            return $this->redirectToRoute('agency_index');
+        }
 
         if ($this->isCsrfTokenValid('delete'.$agency->getId(), $request->request->get('_token'))) {
             $entityManager->remove($agency);

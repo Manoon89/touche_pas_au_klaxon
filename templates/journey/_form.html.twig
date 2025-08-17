@@ -1,4 +1,40 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+
+<div>
+    {{ form_label(form.departureDate) }}
+    {{ form_widget(form.departureDate) }}
+    {{ form_errors(form.departureDate) }}
+</div>
+
+<div>
+    {{ form_label(form.arrivalDate) }}
+    {{ form_widget(form.arrivalDate) }}
+    {{ form_errors(form.arrivalDate) }}
+</div>
+
+<div>
+    {{ form_label(form.totalSeats) }}
+    {{ form_widget(form.totalSeats) }}
+    {{ form_errors(form.totalSeats) }}
+</div>
+
+<div>
+    {{ form_label(form.availableSeats) }}
+    {{ form_widget(form.availableSeats) }}
+    {{ form_errors(form.availableSeats) }}
+</div>
+
+<div>
+    {{ form_label(form.departureAgency) }}
+    {{ form_widget(form.departureAgency) }}
+    {{ form_errors(form.departureAgency) }}
+</div>
+
+<div>
+    {{ form_label(form.arrivalAgency) }}
+    {{ form_widget(form.arrivalAgency) }}
+    {{ form_errors(form.arrivalAgency) }}
+</div>
+
+<button class="btn">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

@@ -9,12 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/user')]
 final class UserController extends AbstractController
 {
-    #[Route(name: 'user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
     {
         $users = $userRepository->createQueryBuilder('u')
@@ -28,7 +25,6 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -48,7 +44,6 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{userId}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, int $userId, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $userRepository->find($userId);
@@ -68,7 +63,6 @@ final class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{userId}', name: 'user_delete', methods: ['POST'])]
     public function delete(Request $request, int $userId, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $userRepository->find($userId);

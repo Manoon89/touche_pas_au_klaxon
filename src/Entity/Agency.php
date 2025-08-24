@@ -16,16 +16,16 @@ class Agency
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'agency_id')]
-    private ?int $agencyId = null;
+    private $agencyId = null;
 
     #[ORM\Column(length: 100, unique: true)]
     private ?string $city = null;
 
     #[ORM\OneToMany(mappedBy: 'departureAgency', targetEntity: Journey::class)]
-    private $departureJourneys;
+    private Collection $departureJourneys;
 
     #[ORM\OneToMany(mappedBy: 'arrivalAgency', targetEntity: Journey::class)]
-    private $arrivalJourneys;
+    private Collection $arrivalJourneys;
 
     public function __construct()
     {

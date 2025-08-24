@@ -50,9 +50,6 @@ class ImportAgenciesCommand extends Command
         while (($line = fgets($handle)) !== false) {
             $data = str_getcsv(trim($line), $delimiter);
 
-            // Attendu : city
-            if (count($data) < 1) { continue; }
-
             [$city] = array_map('trim', array_slice($data, 0, 1));
 
             // Skip si déjà existant (ville unique)

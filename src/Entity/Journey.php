@@ -19,7 +19,7 @@ class Journey
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'journey_id')]
-    private ?int $journeyId = null;
+    private $journeyId = null;
 
     #[ORM\Column(type: 'datetime')]
     private ?\DateTime $departureDate = null;

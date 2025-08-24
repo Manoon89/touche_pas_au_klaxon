@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Journey;
+use App\Entity\User;
 use App\Repository\JourneyRepository;
 use App\Form\JourneyType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,7 +18,12 @@ final class JourneyController extends AbstractController
     {
         $journey = new Journey();
 
-        $journey->setUser($this->getUser());
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new \LogicException('Utilisateur non valide.');
+        }
+        
+        $journey->setUser($user);
 
         $form = $this->createForm(JourneyType::class, $journey);
         $form->handleRequest($request);

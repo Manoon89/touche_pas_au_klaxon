@@ -27,6 +27,8 @@ final class UserController extends AbstractController
         ]);
     }
 
+    /* keeping these crud created by error, in case needs change : 
+
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -99,4 +101,5 @@ final class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
     }
+    */
 }

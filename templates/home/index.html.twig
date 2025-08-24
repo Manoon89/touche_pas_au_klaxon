@@ -20,10 +20,6 @@
         {% endif %} 
     </h1>
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('journey_new') }}">Créer un nouveau trajet</a>
-    {% endif %}
-
     <table>
         <thead>
             <tr>
@@ -54,12 +50,12 @@
                     <td>{{ journey.arrivalDate|date('H:i') }}</td>
                     <td>{{ journey.availableSeats }}</td>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <td>{{ journey.user.firstName }} {{ journey.user.lastName }}</th>
-                    {% endif %}
-                    {% if app.user %}
+                        <td>{{ journey.user.firstName }} {{ journey.user.lastName }}</td>
+                        <td>{{ include('journey/_delete_form.html.twig') }}</td>
+                    {% elseif app.user %}
                         <td>
                             <a href="{{ path('journey_show', {'journeyId': journey.id}) }}">Détails</a>
-                            {% if is_granted('ROLE_ADMIN') or app.user.id == journey.user.id %}
+                            {% if app.user.id == journey.user.id %}
                                 <a href="{{ path('journey_edit', {'journeyId': journey.id}) }}">Modifier</a>
                                 {{ include('journey/_delete_form.html.twig') }}
                             {% endif %}

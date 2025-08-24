@@ -8,8 +8,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/**
+ * Formulaire pour gérer la création et l'édition d'une agence
+ */
 class AgencyType extends AbstractType
 {
+    /**
+     * Configure les champs du formulaire
+     * 
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -22,6 +31,11 @@ class AgencyType extends AbstractType
             ]);
         }
 
+    /**
+     * Configure les options du formulaire
+     * 
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -11,9 +11,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Controller pour la gestion des trajets
+ */
 final class JourneyController extends AbstractController
 {
-
+    /**
+     * Crée un nouveau trajet lié à l'utilisateur connecté
+     * 
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * 
+     * @return Response Retourne la vue du formulaire de création ou la redirection après soumission
+     */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $journey = new Journey();
@@ -23,6 +33,7 @@ final class JourneyController extends AbstractController
             throw new \LogicException('Utilisateur non valide.');
         }
         
+        // On récupère l'utilisateur pour pouvoir afficher ses informations dans le formulaire de création
         $journey->setUser($user);
 
         $form = $this->createForm(JourneyType::class, $journey);
@@ -44,9 +55,17 @@ final class JourneyController extends AbstractController
         ]);
     }
 
+    /**
+     * Permet d'afficher des informations complémentaires pour un trajet donné
+     * 
+     * @param int $journeyId
+     * @param JourneyRepository $journeyRepository
+     * 
+     * @return Response
+     */
     public function show(int $journeyId, JourneyRepository $journeyRepository): Response
     {
-        $journey = $journeyRepository->findWithAgencies($journeyId); // renvoie un array
+        $journey = $journeyRepository->findWithAgencies($journeyId);
     
         if (!$journey) {
             throw $this->createNotFoundException('Trajet introuvable');
@@ -57,6 +76,16 @@ final class JourneyController extends AbstractController
         ]);
     }
 
+    /**
+     * Modifie les informations d'un trajet
+     * 
+     * @param Request $request
+     * @param int $journeyId
+     * @param JourneyRepository $journeyRepository
+     * @param EntityManagerInterface $entityManager
+     * 
+     * @return Response Retourne la vue du formulaire de modification ou la redirection après soumission
+     */
     public function edit(Request $request, int $journeyId, JourneyRepository $journeyRepository, EntityManagerInterface $entityManager): Response
     {
         $journey = $journeyRepository->findWithAgencies($journeyId);
@@ -78,6 +107,16 @@ final class JourneyController extends AbstractController
         ]);
     }
 
+    /**
+     * Supprime un trajet
+     * 
+     * @param Request $request
+     * @param int $journeyId
+     * @param JourneyRepository $journeyRepository
+     * @param EntityManagerInterface $entityManager
+     * 
+     * @return Response Supprime le trajet et redirige vers la page d'accueil
+     */
     public function delete(Request $request, int $journeyId, JourneyRepository $journeyRepository, EntityManagerInterface $entityManager): Response
     {
         $journey = $journeyRepository->findWithAgencies($journeyId);

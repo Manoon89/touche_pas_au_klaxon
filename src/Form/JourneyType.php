@@ -12,8 +12,17 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Formulaire pour créer ou modifier un trajet
+ */
 class JourneyType extends AbstractType
 {
+    /**
+     * Configure les champs du formulaire
+     * 
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -50,6 +59,11 @@ class JourneyType extends AbstractType
             ]);
     }
 
+    /**
+     * Configure les options du formulaire
+     * 
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

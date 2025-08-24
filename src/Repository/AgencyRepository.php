@@ -11,6 +11,11 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AgencyRepository extends ServiceEntityRepository
 {
+    /**
+     * Constructeur
+     * 
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Agency::class);

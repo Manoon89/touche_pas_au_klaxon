@@ -10,8 +10,18 @@ use Symfony\Component\HttpFoundation\Response;
 // use App\Validator\Constraints\UserDeletion;
 // use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * Controller pour la gestion des utilisateurs 
+ */
 final class UserController extends AbstractController
 {
+    /**
+     * Affiche la liste des utilisateurs par ordre alphabétique de leur nom de famille
+     * 
+     * @param UserRepository $userRepository
+     * 
+     * @return Response 
+     */
     public function index(UserRepository $userRepository): Response
     {
         $users = $userRepository->createQueryBuilder('u')
@@ -25,7 +35,7 @@ final class UserController extends AbstractController
         ]);
     }
 
-    /* keeping these crud created by error, in case needs change : 
+    /* on garde les CRUD créés par erreur pour pouvoir les réutiliser si besoin : 
 
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

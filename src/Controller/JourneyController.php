@@ -121,7 +121,17 @@ final class JourneyController extends AbstractController
     {
         $journey = $journeyRepository->findWithAgencies($journeyId);
 
-        if ($this->isCsrfTokenValid('delete'.$journey->getId(), $request->request->get('_token'))) {
+        if ($journey === null) {
+            $this->addFlash('error', 'Trajet introuvable');
+            return $this->redirectToRoute('home');
+        }
+
+        $token = $request->request->get('_token');
+        if (!is_string($token)) {
+            $token = null;
+        }
+        
+        if ($this->isCsrfTokenValid('delete'.$journey->getId(), $token)) {
             $entityManager->remove($journey);
             $entityManager->flush();
         }

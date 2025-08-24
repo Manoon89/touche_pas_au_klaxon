@@ -16,8 +16,8 @@ class UserDeletionValidator extends ConstraintValidator
     /**
      * Vérifie si l'utilisateur a des trajets associés
      * 
-     * @param $user
-     * @param Constraint $contraint
+     * @param User $user
+     * @param Constraint $constraint
      * 
      * @return void
      */

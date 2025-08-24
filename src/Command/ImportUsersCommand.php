@@ -44,19 +44,24 @@ class ImportUsersCommand extends Command
     /**
      * Exécute l'import des utilisateurs
      * 
-     * @param IntputInterface $input
+     * @param InputInterface $input
      * @param OutputInterface $output
      * 
-     * @return Command Retourne le statut de la commande (succès ou échec)
+     * @return int Retourne le statut de la commande (succès ou échec)
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filePath  = $input->getArgument('file');
         $delimiter = $input->getOption('delimiter');
 
+        if (!is_string($delimiter)) {
+            $output->writeln('<error>Délimiteur invalide.</error>');
+            return Command::FAILURE;
+        }
+
         // Vérifie que le fichier existe bien
-        if (!is_file($filePath)) {
-            $output->writeln("<error>Fichier introuvable: $filePath</error>");
+        if (!is_string($filePath)) {
+            $output->writeln("<error>Chemin de fichier invalide</error>");
             return Command::FAILURE;
         }
 
@@ -76,7 +81,10 @@ class ImportUsersCommand extends Command
             // Attendu : firstName,lastName,email,phone,[role]
             if (count($data) < 4) { continue; }
 
-            [$lastName, $firstName, $phone, $email] = array_map('trim', array_slice($data, 0, 4));
+            [$lastName, $firstName, $phone, $email] = array_map(
+                fn(?string $s) => $s !== null ? trim($s) : '',
+                array_slice($data, 0, 4)
+            );
             $roleFromFile = strtoupper(trim($data[4] ?? 'ROLE_USER'));
 
             // Skip si déjà existant (email unique)

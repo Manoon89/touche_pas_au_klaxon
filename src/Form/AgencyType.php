@@ -17,7 +17,7 @@ class AgencyType extends AbstractType
      * Configure les champs du formulaire
      * 
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array<string, mixed> $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

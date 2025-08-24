@@ -17,8 +17,8 @@ class JourneyDatesValidator extends ConstraintValidator
     /**
      * Vérifie la cohérence des dates d'un trajet
      * 
-     * @param $journey
-     * @param Constraint $contraint
+     * @param Journey $journey
+     * @param Constraint $constraint
      * 
      * @return void
      */

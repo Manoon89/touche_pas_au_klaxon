@@ -1,5 +1,6 @@
 <?php
 
+/* Not used for now
 namespace App\Form;
 
 use App\Entity\User;
@@ -93,3 +94,4 @@ class UserType extends AbstractType
         ]);
     }
 }
+*/

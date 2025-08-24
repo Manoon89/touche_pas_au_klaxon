@@ -54,4 +54,17 @@ class JourneyRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function findUpcomingAvailableJourneys(): array
+{
+    return $this->createQueryBuilder('j')
+        ->leftJoin('j.departureAgency', 'da')->addSelect('da')
+        ->leftJoin('j.arrivalAgency', 'aa')->addSelect('aa')
+        ->where('j.departureDate >= :now')
+        ->andWhere('j.availableSeats > 0')
+        ->setParameter('now', new \DateTime())
+        ->orderBy('j.departureDate', 'ASC')
+        ->getQuery()
+        ->getResult();
+}
+
 }

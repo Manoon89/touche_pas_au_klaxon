@@ -32,7 +32,9 @@
 
     <a href="{{ path('home') }}">Retour à la liste des trajets</a>
 
-    <a href="{{ path('journey_edit', {'journeyId': journey.id}) }}">Modifier ce trajet</a>
+    {% if app.user.id == journey.user.id %}
+        <a href="{{ path('journey_edit', {'journeyId': journey.id}) }}">Modifier</a>
+        {{ include('journey/_delete_form.html.twig') }}
+    {% endif %}
 
-    {{ include('journey/_delete_form.html.twig') }}
 {% endblock %}

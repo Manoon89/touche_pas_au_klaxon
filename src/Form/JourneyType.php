@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Doctrine\ORM\EntityRepository;
 
 class JourneyType extends AbstractType
 {
@@ -31,12 +32,21 @@ class JourneyType extends AbstractType
             ->add('departureAgency', EntityType::class, [
                 'class' => Agency::class,
                 'choice_label' => 'city',
-                'label' => 'Agence de départ'
+                'label' => 'Agence de départ',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                              ->orderBy('a.city', 'ASC');
+                }
             ])
+
             ->add('arrivalAgency', EntityType::class, [
                 'class' => Agency::class,
                 'choice_label' => 'city',
-                'label' => 'Agence d’arrivée'
+                'label' => 'Agence d’arrivée',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                              ->orderBy('a.city', 'ASC');
+                }
             ]);
     }
 

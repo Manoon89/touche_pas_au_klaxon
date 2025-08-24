@@ -34,12 +34,13 @@ final class JourneyController extends AbstractController
         return $this->render('journey/new.html.twig', [
             'journey' => $journey,
             'form' => $form,
+            'user' => $this->getUser(),
         ]);
     }
 
     public function show(int $journeyId, JourneyRepository $journeyRepository): Response
     {
-        $journey = $journeyRepository->findWithAgencies($journeyId);
+        $journey = $journeyRepository->findWithAgencies($journeyId); // renvoie un array
     
         if (!$journey) {
             throw $this->createNotFoundException('Trajet introuvable');

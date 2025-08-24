@@ -7,8 +7,19 @@ use App\Validator\Constraints\JourneySeats;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Valide que le nombre de sièges disponibles d'un trajet n'excède pas le nombre total de sièges
+ */
 class JourneySeatsValidator extends ConstraintValidator
 {
+    /**
+     * Vérifie que le nombre de sièges disponibles ne dépasse pas le total
+     * 
+     * @param $journey
+     * @param Constraint $contraint
+     * 
+     * @return void
+     */
     public function validate($journey, Constraint $constraint)
     {
         if (!$constraint instanceof JourneySeats) {
@@ -19,7 +30,8 @@ class JourneySeatsValidator extends ConstraintValidator
             return;
         }
 
-        // next rule is to be adapt if we include the driver's seat in "TotalSeats" : replace ">" by ">="
+        // Il faudra éventuellement adapter la règle ci-dessous si on compte le siège du conducteur dans le nombre total de sièges
+        // Dans ce cas il faudra remplacer le ">" par un ">="
 
         if ($journey->getAvailableSeats() > $journey->getTotalSeats() ) {
             $constraint = $constraint;

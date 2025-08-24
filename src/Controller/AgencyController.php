@@ -12,11 +12,20 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Validator\Constraints\AgencyDeletion;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+/**
+ * Controller de gestion des agences
+ */
 final class AgencyController extends AbstractController
 {
+    /**
+     * Liste toutes les agences par ordre alphabétique de la ville
+     * 
+     * @param AgencyRepository $agencyRepository
+     * 
+     * @return Response
+     */
     public function index(AgencyRepository $agencyRepository): Response
     {
-
         $agencies = $agencyRepository->createQueryBuilder('a')
             ->orderBy('a.city', 'ASC')
             ->getQuery()
@@ -28,6 +37,14 @@ final class AgencyController extends AbstractController
         ]);
     }
 
+    /**
+     * Crée une nouvelle agence
+     * 
+     * @param Request $request
+     * @param EnityManagerInterface $entityManager
+     * 
+     * @return Response Retourne le formulaire de création ou la redirection après soumission
+     */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $agency = new Agency();
@@ -49,6 +66,17 @@ final class AgencyController extends AbstractController
         ]);
     }
 
+    /**
+     * Modifie une agence
+     * 
+     * @param Request $request
+     * @param int $agencyId
+     * @param AgencyRepository $agencyRepository
+     * @param ValidatorInterface $validator
+     * @param EntityManagerInterface $entityManager
+     * 
+     * @return Response
+     */
     public function edit(Request $request, int $agencyId, AgencyRepository $agencyRepository, ValidatorInterface $validator, EntityManagerInterface $entityManager): Response
     {
         $agency = $agencyRepository->find($agencyId);
@@ -57,11 +85,11 @@ final class AgencyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            // On valide l'agence avec tous les constraints éventuels
+            // On va vérifier via le validator que la ville n'est pas déjà utilisée pour un trajet
             $errors = $validator->validate($agency);
     
             if (count($errors) > 0) {
-                // On affiche le premier message d'erreur dans un flash
+                // On affiche le message d'erreur dans un flash
                 $this->addFlash('error', $errors[0]->getMessage());
                 return $this->redirectToRoute('agency_index');
 
@@ -79,10 +107,22 @@ final class AgencyController extends AbstractController
         ]);
     }
 
+    /**
+     * Supprime une agence
+     * 
+     * @param Request $request
+     * @param int $agencyId
+     * @param AgencyRepository $agencyRepository
+     * @param ValidatorInterface $validator
+     * @param EntityManagerInterface $entityManager
+     * 
+     * @return Response
+     */
     public function delete(Request $request, int $agencyId, AgencyRepository $agencyRepository, ValidatorInterface $validator, EntityManagerInterface $entityManager): Response
     {
         $agency = $agencyRepository->find($agencyId);
 
+        // On va vérifier via le validator que la ville n'est pas déjà utilisée pour un trajet
         $errors = $validator->validate($agency, new AgencyDeletion());
 
         if (count($errors) > 0) {

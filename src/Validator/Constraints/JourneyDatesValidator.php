@@ -7,8 +7,21 @@ use App\Validator\Constraints\JourneyDates;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Vérifie que les dates d'un trajet sont cohérentes : 
+ * -> la date de départ ne peut pas être antérieure à la date du jour
+ * -> la date d'arrivée ne peut pas être antérieure à la date de départ
+ */
 class JourneyDatesValidator extends ConstraintValidator
 {
+    /**
+     * Vérifie la cohérence des dates d'un trajet
+     * 
+     * @param $journey
+     * @param Constraint $contraint
+     * 
+     * @return void
+     */
     public function validate($journey, Constraint $constraint)
     {
         if (!$constraint instanceof JourneyDates) {

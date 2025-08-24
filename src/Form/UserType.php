@@ -1,6 +1,5 @@
 <?php
 
-/* Not used for now
 namespace App\Form;
 
 use App\Entity\User;
@@ -15,6 +14,7 @@ use Symfony\Component\Form\CallbackTransformer;
 
 class UserType extends AbstractType
 {
+    /* Not used for now
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -93,5 +93,5 @@ class UserType extends AbstractType
             'data_class' => User::class,
         ]);
     }
+        */
 }
-*/

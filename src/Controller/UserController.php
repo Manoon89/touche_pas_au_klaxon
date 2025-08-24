@@ -2,15 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Form\UserType;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
+// use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+// use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Validator\Constraints\UserDeletion;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+// use App\Validator\Constraints\UserDeletion;
+// use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class UserController extends AbstractController
 {

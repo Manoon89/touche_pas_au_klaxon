@@ -44,16 +44,21 @@ class ImportAgenciesCommand extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * 
-     * @return Command Retourne le statut de la commande (succès ou échec)
+     * @return int Retourne le statut de la commande (succès ou échec)
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filePath  = $input->getArgument('file');
         $delimiter = $input->getOption('delimiter');
 
+        if (!is_string($delimiter)) {
+            $output->writeln('<error>Le délimiteur doit être une chaîne de caractères.</error>');
+            return Command::FAILURE;
+        }
+
         // Vérifie que le fichier existe bien
-        if (!is_file($filePath)) {
-            $output->writeln("<error>Fichier introuvable: $filePath</error>");
+        if (!is_string($filePath)) {
+            $output->writeln("<error>Chemin de fichier invalide</error>");
             return Command::FAILURE;
         }
 
@@ -70,7 +75,7 @@ class ImportAgenciesCommand extends Command
             // conversion CSV en tableau
             $data = str_getcsv(trim($line), $delimiter);
 
-            [$city] = array_map('trim', array_slice($data, 0, 1));
+            [$city] = array_map(fn(?string $s) => $s !== null ? trim($s) : '', array_slice($data, 0, 1));
 
             // Skip si déjà existant (ville unique)
             if ($repo->findOneBy(['city' => $city])) { continue; }

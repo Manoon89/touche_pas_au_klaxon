@@ -1,0 +1,13 @@
+parameters:
+    level: 6
+    paths:
+        - bin/
+        - config/
+        - public/
+        - src/
+        - tests/
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+    - '#Property App\\Entity\\User::\$userId \(int\|null\) is never assigned int#'
+    - '#Property App\\Entity\\Agency::\$agencyId \(int\|null\) is never assigned int#'
+    - '#Property App\\Entity\\Journey::\$journeyId \(int\|null\) is never assigned int#'

@@ -16,8 +16,8 @@ class AgencyDeletionValidator extends ConstraintValidator
     /**
      * Vérifie si l'agence peut être supprimée
      * 
-     * @param $agency
-     * @param Constraint $contraint
+     * @param Agency $agency
+     * @param Constraint $constraint
      * 
      * @return void
      */

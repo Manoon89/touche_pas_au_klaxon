@@ -22,12 +22,12 @@ class Agency
     /**
      * Identifiant de l'agence
      *
-     * @var int|null
+     * @var null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'agency_id')]
-    private $agencyId = null;
+    private ?int $agencyId = null;
 
     /**
      * Nom de la ville
@@ -99,6 +99,8 @@ class Agency
 
     /**
      * Retourne les trajets avec l'agence en départ
+     * 
+     * @return Collection<int, \App\Entity\Journey>
      */
     public function getDepartureJourneys(): Collection
     {
@@ -107,6 +109,8 @@ class Agency
 
     /**
      * Retourne les trajets avec l'agence en arrivée
+     * 
+     * @return Collection<int, \App\Entity\Journey>
      */
     public function getArrivalJourneys(): Collection
     {

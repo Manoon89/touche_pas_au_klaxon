@@ -20,12 +20,12 @@ class Journey
     /**
      * Identifiant du trajet
      * 
-     * @var int|null
+     * @var null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'journey_id')]
-    private $journeyId = null;
+    private ?int $journeyId = null;
 
     /**
      * Date de départ du trajet

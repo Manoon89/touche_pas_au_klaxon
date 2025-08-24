@@ -15,8 +15,8 @@ class JourneyCitiesValidator extends ConstraintValidator
     /**
      * Vérifie que le trajet a des agences de départ et d'arrivée différentes
      * 
-     * @param $journey
-     * @param Constraint $contraint
+     * @param Journey $journey
+     * @param Constraint $constraint
      * 
      * @return void
      */

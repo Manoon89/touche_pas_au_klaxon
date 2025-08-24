@@ -15,8 +15,8 @@ class JourneySeatsValidator extends ConstraintValidator
     /**
      * Vérifie que le nombre de sièges disponibles ne dépasse pas le total
      * 
-     * @param $journey
-     * @param Constraint $contraint
+     * @param Journey $journey
+     * @param Constraint $constraint
      * 
      * @return void
      */

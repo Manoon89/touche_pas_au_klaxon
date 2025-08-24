@@ -41,7 +41,7 @@ final class AgencyController extends AbstractController
      * Crée une nouvelle agence
      * 
      * @param Request $request
-     * @param EnityManagerInterface $entityManager
+     * @param EntityManagerInterface $entityManager
      * 
      * @return Response Retourne le formulaire de création ou la redirection après soumission
      */
@@ -88,7 +88,7 @@ final class AgencyController extends AbstractController
             // On va vérifier via le validator que la ville n'est pas déjà utilisée pour un trajet
             $errors = $validator->validate($agency);
     
-            if (count($errors) > 0) {
+            if (count($errors) > 0 && $errors[0] !== null) {
                 // On affiche le message d'erreur dans un flash
                 $this->addFlash('error', $errors[0]->getMessage());
                 return $this->redirectToRoute('agency_index');
@@ -125,14 +125,21 @@ final class AgencyController extends AbstractController
         // On va vérifier via le validator que la ville n'est pas déjà utilisée pour un trajet
         $errors = $validator->validate($agency, new AgencyDeletion());
 
-        if (count($errors) > 0) {
+        if (count($errors) > 0 && $errors[0] !==null) {
             $this->addFlash('error', $errors[0]->getMessage());
             return $this->redirectToRoute('agency_index');
         }
 
-        if ($this->isCsrfTokenValid('delete'.$agency->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($agency);
-            $entityManager->flush();
+        $token = $request->request->get('_token');
+        if (!is_string($token)) {
+            $token = null;
+        }
+        
+        if ($agency instanceof Agency) {
+            if ($this->isCsrfTokenValid('delete'.$agency->getId(), $token)) {
+                $entityManager->remove($agency);
+                $entityManager->flush();
+            }
         }
 
         $this->addFlash('success', 'L\'agence a bien été supprimée');

@@ -46,9 +46,15 @@ class JourneyRepository extends ServiceEntityRepository
     //        ;
     //    }
 
+    /**
+     * Retourne les trajets
+     * 
+     * @param int $id
+     */
     public function findWithAgencies(int $id): ?Journey
     {
-        return $this->createQueryBuilder('j')
+        /** @var Journey|null $journey */
+        $journey = $this->createQueryBuilder('j')
             ->leftJoin('j.departureAgency', 'da')
             ->addSelect('da')
             ->leftJoin('j.arrivalAgency', 'aa')
@@ -57,11 +63,19 @@ class JourneyRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
+
+        return $journey;
     }
 
+    /**
+     * Retourne les prochains trajets disponibles avec sièges disponibles
+     * 
+     * @return Journey[] Tableau d'objets Journey
+     */
     public function findUpcomingAvailableJourneys(): array
 {
-    return $this->createQueryBuilder('j')
+    /** @var Journey[] $journey */
+    $journey = $this->createQueryBuilder('j')
         ->leftJoin('j.departureAgency', 'da')->addSelect('da')
         ->leftJoin('j.arrivalAgency', 'aa')->addSelect('aa')
         ->where('j.departureDate >= :now')
@@ -70,6 +84,8 @@ class JourneyRepository extends ServiceEntityRepository
         ->orderBy('j.departureDate', 'ASC')
         ->getQuery()
         ->getResult();
+
+    return $journey;
 }
 
 }

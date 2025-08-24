@@ -14,11 +14,17 @@ use App\Validator\Constraints\JourneyDatesValidator;
 class JourneyDates extends Constraint
 {
     /**
-     * Messages affichés lorsqu'une violation de contrainte est détectée
+     * Message affiché lorsqu'une violation de contrainte est détectée
      * 
      * @var string
      */
     public $departureMessage = "La date de départ doit être supérieure ou égale à aujourd'hui";
+    
+    /**
+     * Message affiché lorsqu'une violation de contrainte est détectée
+     * 
+     * @var string
+     */
     public $arrivalMessage = "La date d'arrivée doit être supérieure à la date de départ";
 
     /**

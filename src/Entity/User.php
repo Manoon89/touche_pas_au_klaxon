@@ -27,12 +27,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Identifiant de l'utilisateur
      * 
-     * @var int|null
+     * @var null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'user_id')]
-    private $userId = null;
+    private ?int $userId = null;
 
     /**
      * Nom de famille de l'utilisateur
@@ -61,10 +61,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Email de l'utilisateur
      * 
-     * @var string|null
+     * @var string
      */
     #[ORM\Column(length: 150, unique: true)]
-    private ?string $email = null;
+    private string $email;
 
     /**
      * Mot de passe de l'utilisateur
@@ -216,10 +216,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * Retourne l'identifiant unique de connexion (email)
-     * 
      */
     public function getUserIdentifier(): string
     {
+        if ($this->email === '') {
+            throw new \LogicException('Email must not be empty.');
+        }
         return $this->email;
     }
 

@@ -3,21 +3,19 @@
 namespace App\Validator\Constraints;
 
 use App\Entity\Agency;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Validator\Constraints\AgencyDeletion;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 class AgencyDeletionValidator extends ConstraintValidator
 {
-    private EntityManagerInterface $em;
 
-    public function __construct(EntityManagerInterface $em)
+    public function validate($agency, Constraint $constraint): void
     {
-        $this->em = $em;
-    }
+        if (!$constraint instanceof AgencyDeletion) {
+            return;
+        }
 
-    public function validate($agency, Constraint $constraint)
-    {
         if (!$agency instanceof Agency) {
             return;
         }

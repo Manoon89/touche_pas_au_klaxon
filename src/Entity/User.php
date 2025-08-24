@@ -23,7 +23,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'user_id')]
-    private ?int $userId = null;
+    private $userId = null;
 
     #[ORM\Column(length: 50)]
     private ?string $lastName = null;
@@ -132,7 +132,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // TODO : il faudra vider les données sensibles temporaires ici
     }
 
-        public function __construct()
+    public function __construct()
     {
         $this->journeys = new ArrayCollection();
     }

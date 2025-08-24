@@ -7,9 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Agency;
 use App\Entity\User;
 use App\Validator\Constraints as AppAssert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[AppAssert\JourneyDates]
 #[AppAssert\JourneyCities]
+#[AppAssert\JourneySeats]
 
 #[ORM\Entity(repositoryClass: JourneyRepository::class)]
 class Journey
@@ -26,9 +28,11 @@ class Journey
     private ?\DateTime $arrivalDate = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero(message: "Le nombre de sièges total ne peut pas être négatif.")]
     private ?int $totalSeats = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero(message: "Le nombre de sièges total ne peut pas être négatif.")]
     private ?int $availableSeats = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "journeys")]

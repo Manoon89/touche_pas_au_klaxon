@@ -10,12 +10,7 @@ final class HomeController extends AbstractController
 {
     public function index(JourneyRepository $journeyRepository): Response
     {
-        $journeys = $journeyRepository->createQueryBuilder('j')
-            ->where('j.departureDate >= :now')
-            ->setParameter('now', new \DateTime())
-            ->orderBy('j.departureDate', 'ASC')
-            ->getQuery()
-            ->getResult();
+        $journeys = $journeyRepository->findUpComingAvailableJourneys();
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',

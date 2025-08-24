@@ -1,0 +1,5 @@
+fallback_404:
+  path: /{url}
+  controller: App\Controller\ErrorController::notFound
+  requirements:
+    url: ".+"

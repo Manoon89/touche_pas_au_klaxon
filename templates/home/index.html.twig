@@ -45,7 +45,7 @@
 
         <tbody>
             {% for journey in journeys %}
-                <tr>
+                <tr class="journey">
                     <td>{{ journey.departureAgency.city }}</td>
                     <td>{{ journey.departureDate|date('d/m/Y') }}</td>
                     <td>{{ journey.departureDate|date('H:i') }}</td>
@@ -73,7 +73,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="{% if is_granted('ROLE_ADMIN') %} 9 {% elseif app.user %}8{% else %}7{% endif %}">Aucun trajet disponible. </td>
+                    <td colspan="{% if is_granted('ROLE_ADMIN') %} 9 {% elseif app.user %}8{% else %}7{% endif %}" class="no-journey">Aucun trajet disponible. </td>
                 </tr>
             {% endfor %}
         </tbody>

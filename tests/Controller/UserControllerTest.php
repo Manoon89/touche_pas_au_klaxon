@@ -21,6 +21,13 @@ final class UserControllerTest extends WebTestCase
         $this->manager = static::getContainer()->get('doctrine')->getManager();
         $this->userRepository = $this->manager->getRepository(User::class);
 
+        // Supprime d'abord toutes les journeys pour éviter les contraintes FK
+        $journeys = $this->manager->getRepository(\App\Entity\Journey::class)->findAll();
+        foreach ($journeys as $journey) {
+            $this->manager->remove($journey);
+        }
+
+        // Puis on supprime les utilisateurs
         foreach ($this->userRepository->findAll() as $object) {
             $this->manager->remove($object);
         }
@@ -30,114 +37,56 @@ final class UserControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
+
         $this->client->followRedirects();
-        $crawler = $this->client->request('GET', $this->path);
+        
+        // Création d'un utilisateur pour se connecter
+        $user = new User();
+        $user->setLastName('Nom');
+        $user->setFirstName('Prénom');
+        $user->setPhone('0123456789');
+        $user->setEmail('admin+' . uniqid() . '@example.com');
+        $user->setPassword('password');
+        $user->setRoles(['ROLE_ADMIN']);
+        $this->manager->persist($user);
+        $this->manager->flush();
+        $this->client->loginUser($user);
 
-        self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('User index');
+        // Création d'autres utilisateurs pour tester l'affichage
+        $fixture1 = new User();
+        $fixture1->setLastName('Zephyr');
+        $fixture1->setFirstName('Alice');
+        $fixture1->setPhone('0122334455');
+        $fixture1->setEmail('alice@email.fr');
+        $fixture1->setPassword('password');
+        $this->manager->persist($fixture1);
 
-        // Use the $crawler to perform additional assertions e.g.
-        // self::assertSame('Some text on the page', $crawler->filter('.p')->first()->text());
-    }
+        $fixture2 = new User();
+        $fixture2->setFirstName('Bob');
+        $fixture2->setLastName('Anderson');
+        $fixture2->setPhone('0222334455');
+        $fixture2->setEmail('bob@example.com');
+        $fixture2->setPassword('password');
+        $this->manager->persist($fixture2);
 
-    public function testNew(): void
-    {
-        $this->markTestIncomplete();
-        $this->client->request('GET', sprintf('%snew', $this->path));
-
-        self::assertResponseStatusCodeSame(200);
-
-        $this->client->submitForm('Save', [
-            'user[lastName]' => 'Testing',
-            'user[firstName]' => 'Testing',
-            'user[phone]' => 'Testing',
-            'user[email]' => 'Testing',
-            'user[password]' => 'Testing',
-            'user[roles]' => 'Testing',
-        ]);
-
-        self::assertResponseRedirects($this->path);
-
-        self::assertSame(1, $this->userRepository->count([]));
-    }
-
-    public function testShow(): void
-    {
-        $this->markTestIncomplete();
-        $fixture = new User();
-        $fixture->setLastName('My Title');
-        $fixture->setFirstName('My Title');
-        $fixture->setPhone('My Title');
-        $fixture->setEmail('My Title');
-        $fixture->setPassword('My Title');
-        $fixture->setRoles('My Title');
-
-        $this->manager->persist($fixture);
         $this->manager->flush();
 
-        $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
+        // Requête vers la page des utilisateurs
+        $crawler = $this->client->request('GET', '/user/index');
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('User');
+        self::assertPageTitleContains('Liste des utilisateurs');
 
-        // Use assertions to check that the properties are properly displayed.
-    }
+        // Vérifie que deux utilisateurs sont affichés + l'admin
+        $userRows = $crawler->filter('tr.user');
+        self::assertSame(3, $userRows->count(), 'La page doit afficher les 3 utilisateurs.');
 
-    public function testEdit(): void
-    {
-        $this->markTestIncomplete();
-        $fixture = new User();
-        $fixture->setLastName('Value');
-        $fixture->setFirstName('Value');
-        $fixture->setPhone('Value');
-        $fixture->setEmail('Value');
-        $fixture->setPassword('Value');
-        $fixture->setRoles('Value');
-
-        $this->manager->persist($fixture);
-        $this->manager->flush();
-
-        $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
-
-        $this->client->submitForm('Update', [
-            'user[lastName]' => 'Something New',
-            'user[firstName]' => 'Something New',
-            'user[phone]' => 'Something New',
-            'user[email]' => 'Something New',
-            'user[password]' => 'Something New',
-            'user[roles]' => 'Something New',
-        ]);
-
-        self::assertResponseRedirects('/user/');
-
-        $fixture = $this->userRepository->findAll();
-
-        self::assertSame('Something New', $fixture[0]->getLastName());
-        self::assertSame('Something New', $fixture[0]->getFirstName());
-        self::assertSame('Something New', $fixture[0]->getPhone());
-        self::assertSame('Something New', $fixture[0]->getEmail());
-        self::assertSame('Something New', $fixture[0]->getPassword());
-        self::assertSame('Something New', $fixture[0]->getRoles());
-    }
-
-    public function testRemove(): void
-    {
-        $this->markTestIncomplete();
-        $fixture = new User();
-        $fixture->setLastName('Value');
-        $fixture->setFirstName('Value');
-        $fixture->setPhone('Value');
-        $fixture->setEmail('Value');
-        $fixture->setPassword('Value');
-        $fixture->setRoles('Value');
-
-        $this->manager->persist($fixture);
-        $this->manager->flush();
-
-        $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
-        $this->client->submitForm('Delete');
-
-        self::assertResponseRedirects('/user/');
-        self::assertSame(0, $this->userRepository->count([]));
+        // Vérifie l'ordre alphabétique par nom de famille
+        $firstUserLastName = trim($userRows->eq(0)->filter('td')->eq(0)->text());
+        $secondUserLastName = trim($userRows->eq(1)->filter('td')->eq(0)->text());
+        $thirdUserLastName = trim($userRows->eq(2)->filter('td')->eq(0)->text());
+        self::assertSame('Anderson', $firstUserLastName);
+        self::assertSame('Nom', $secondUserLastName);
+        self::assertSame('Zephyr', $thirdUserLastName);
     }
 }

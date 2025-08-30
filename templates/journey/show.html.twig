@@ -9,23 +9,23 @@
         <tbody>
             <tr>
                 <th>Auteur</th>
-                <td>
+                <td class="journey-author">
                     {{ journey.user.firstName }} {{ journey.user.lastName }} 
                 </td>
             </tr>
             <tr>
                 <th>Téléphone</th>
-                <td>
+                <td class="journey-phone">
                     {{ journey.user.phone }} 
                 </td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td>{{ journey.user.email }}</td>
+                <td class="journey-mail">{{ journey.user.email }}</td>
             </tr>
             <tr>
                 <th>Nombre total de places</th>
-                <td>{{ journey.totalSeats }}</td>
+                <td class="journey-seats">{{ journey.totalSeats }}</td>
             </tr>
         </tbody>
     </table>

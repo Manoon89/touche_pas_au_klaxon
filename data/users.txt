@@ -1,4 +1,4 @@
-Martin,Alexandre,0612345678,alexandre.martin@email.fr
+Martin,Alexandre,0612345678,alexandre.martin@email.fr,ROLE_ADMIN
 Dubois,Sophie,0698765432,sophie.dubois@email.fr
 Bernard,Julien,0622446688,julien.bernard@email.fr
 Moreau,Camille,0611223344,camille.moreau@email.fr

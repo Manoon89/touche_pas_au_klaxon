@@ -1,0 +1,120 @@
+// Redéfinition des couleurs Bootstrap
+$primary: #0074c7;
+$secondary: #00497c;
+$success: #82b864;
+$danger: #cd2c2e;
+$light: #f1f8fc;
+$dark: #384050;
+
+// Import boostratp
+@import "~bootstrap/scss/bootstrap";
+
+// Styles globaux
+body {
+    background-color: $light;
+    color: $primary;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+.btn {
+  font-weight: 500;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+  &.btn {
+    background-color: $secondary;
+    color: $light;
+    border-color: $dark;
+  }
+}
+
+.alert-danger {
+color: $danger;
+}
+
+a {
+  color: $secondary;
+  text-decoration: none;
+  &:hover {
+    color: $dark;
+    text-decoration: underline;
+  }
+}
+
+header {
+  margin: 2rem;
+
+  nav {
+    @extend .d-flex;
+    @extend .justify-content-between;
+    @extend .align-items-center;
+    padding: 0.5rem;
+    background-color: $light;
+    border: 2px solid black;
+    border-radius: 10px;
+  
+    p {
+        margin-bottom: 0;
+        font-size: 2rem;
+    }
+ 
+    a.btn {
+        margin-left: 0.5rem;
+    }
+  
+    .d-flex.gap-2 {
+        gap: 0.5rem;
+    }
+  }
+}
+
+main {
+  margin: 2rem;
+  flex: 1; 
+
+  h1 {
+    margin: 1rem;
+    font-size: 1.7rem;
+  }
+
+  .flash {
+    padding: 0.75rem 1rem;
+    margin: 1rem;
+    border: 1px solid $secondary;
+    border-radius: 0.25rem;
+    color: $success;
+    font-weight: 600;
+  }
+
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: $dark;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    text-align: center;
+    th {
+      background-color: $secondary;
+      color: $light;
+    }
+    td {
+      vertical-align: middle;
+    }
+    tr:nth-child(even) {
+      background-color: lighten($light, 5%);
+    }
+  }
+
+  .return {
+    margin-top: 2rem;
+    padding-top: 2 rem;
+  }
+}
+
+footer {
+  text-align: center;
+  padding: 10px;  
+}

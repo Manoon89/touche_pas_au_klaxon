@@ -1,41 +1,53 @@
 {{ form_start(form) }}
 
-    <div>
-        {{ form_label(form.departureDate) }}
-        {{ form_widget(form.departureDate) }}
-        {{ form_errors(form.departureDate) }}
+    <div class="mb-3">
+        {{ form_label(form.departureDate, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.departureDate, {'attr': {'class': 'form-control mb-2'}}) }}
+        <div class="alert-danger">
+            {{ form_errors(form.departureDate) }}
+        </div>
     </div>
 
     <div>
-        {{ form_label(form.arrivalDate) }}
-        {{ form_widget(form.arrivalDate) }}
-        {{ form_errors(form.arrivalDate) }}
+        {{ form_label(form.arrivalDate, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.arrivalDate, {'attr': {'class': 'form-control mb-2'}}) }}
+        <div class="alert-danger">
+            {{ form_errors(form.arrivalDate) }}
+        </div>
     </div>
 
     <div>
-        {{ form_label(form.totalSeats) }}
-        {{ form_widget(form.totalSeats) }}
-        {{ form_errors(form.totalSeats) }}
+        {{ form_label(form.totalSeats, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.totalSeats, {'attr': {'class': 'form-control mb-2'}}) }}
+        <div class="alert-danger">
+            {{ form_errors(form.totalSeats) }}
+        </div>            
     </div>
 
     <div>
-        {{ form_label(form.availableSeats) }}
-        {{ form_widget(form.availableSeats) }}
-        {{ form_errors(form.availableSeats) }}
+        {{ form_label(form.availableSeats, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.availableSeats, {'attr': {'class': 'form-control mb-2'}}) }}
+        <div class="alert-danger">
+            {{ form_errors(form.availableSeats) }}
+        </div>            
     </div>
 
     <div>
-        {{ form_label(form.departureAgency) }}
-        {{ form_widget(form.departureAgency) }}
-        {{ form_errors(form.departureAgency) }}
+        {{ form_label(form.departureAgency, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.departureAgency, {'attr': {'class': 'form-control mb-2'}}) }}
+        <div class="alert-danger">
+            {{ form_errors(form.departureAgency) }}
+        </div>
     </div>
 
     <div>
-        {{ form_label(form.arrivalAgency) }}
-        {{ form_widget(form.arrivalAgency) }}
-        {{ form_errors(form.arrivalAgency) }}
+        {{ form_label(form.arrivalAgency, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.arrivalAgency, {'attr': {'class': 'form-control mb-2'}}) }}
+        <div class="alert-danger">
+            {{ form_errors(form.arrivalAgency) }}
+        </div>
     </div>
 
-    <button class="btn" value="save">{{ button_label|default('Enregistrer') }}</button>
+    <button class="btn btn-primary" value="save">{{ button_label|default('Enregistrer') }}</button>
     
 {{ form_end(form) }}

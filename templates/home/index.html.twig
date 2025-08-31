@@ -4,12 +4,16 @@
 
 {% block body %}
 
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="flash">
-            {{ message }}
-        </div>
-    {% endfor %}
+{% for message in app.flashes('success') %}
+    <div class="flash">
+        {{ message }}
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
 {% endfor %}
 
     <h1>
@@ -21,10 +25,10 @@
     </h1>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('journey_new') }}">Créer un nouveau trajet</a>
+        <a href="{{ path('journey_new') }}" class="btn">Créer un nouveau trajet</a>
     {% endif %}
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Départ</th>
@@ -56,16 +60,54 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         <td>{{ journey.user.firstName }} {{ journey.user.lastName }}</td>
                         <td>
-                            <a href="{{ path('journey_show', {'journeyId': journey.id}) }}">Détails</a>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#detailsModal{{ journey.id }}">
+                                Détails
+                            </button>
+                            <div class="modal fade" id="detailsModal{{ journey.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ include('journey/show.html.twig') }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Fermer
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             {% if app.user.id == journey.user.id %}
-                                <a href="{{ path('journey_edit', {'journeyId': journey.id}) }}">Modifier</a>
+                                <a href="{{ path('journey_edit', {'journeyId': journey.id}) }}" class="btn">Modifier</a>
                             {% endif %}
                             {{ include('journey/_delete_form.html.twig') }} 
                     {% elseif app.user %}
                         <td>
-                            <a href="{{ path('journey_show', {'journeyId': journey.id}) }}">Détails</a>
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#detailsModal{{ journey.id }}">
+                                Détails
+                            </button>
+                            <div class="modal fade" id="detailsModal{{ journey.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ include('journey/show.html.twig') }}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Fermer
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             {% if app.user.id == journey.user.id %}
-                                <a href="{{ path('journey_edit', {'journeyId': journey.id}) }}">Modifier</a>
+                                <a href="{{ path('journey_edit', {'journeyId': journey.id}) }}" class="btn">Modifier</a>
                                 {{ include('journey/_delete_form.html.twig') }}
                             {% endif %}
                         </td>

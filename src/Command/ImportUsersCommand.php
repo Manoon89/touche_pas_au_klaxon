@@ -96,8 +96,9 @@ class ImportUsersCommand extends Command
             $user->setPhone($phone);
             $user->setEmail($email);
 
-            // Utilise le hasher Symfony (config security.yaml). En prod il faudra générer un mot de passe aléatoire et l'envoyer par mail, 
-            // ou prévoir un changemetn de mot de passe de l'utilisateur à la première connexion
+            // Utilise le hasher Symfony (config security.yaml). Comme l'admin ne doit pas avoir de CRUD pour les utilisateurs
+            // je suis partie sur un MDP identique pour tous. En prod, il faudrait que l'admin puisse a  minima réinitialiser
+            // le mot de passe d'un utilisateur et/ou que cet utilisateur puisse faire une demande en cas de mot de passe perdu.
             $hashed = $this->passwordHasher->hashPassword($user, 'defaultPassword');
             $user->setPassword($hashed);
 

@@ -5,12 +5,16 @@
 {% block body %}
     <h1>Créer un nouveau trajet</h1>
 
-    <p>
-        Auteur du trajet : {{ user.firstName }} {{user.lastName}} <br>
-        Contact : {{user.phone}} / {{user.email}}
+    <p class="mb-3">
+        <div class="form-label">Auteur du trajet :</div>
+        <div class="form-control">{{ user.firstName }} {{user.lastName}}</div>
+    </p>
+    <p class="mb-3">
+        <div class="form-label">Contact :</div>
+        <div class="form-control">{{user.phone}} / {{user.email}}</div>
     </p>
 
     {{ include('journey/_form.html.twig') }}
 
-    <a href="{{ path('home') }}">Retour à la liste des trajets</a>
+    <a class="return" href="{{ path('home') }}">Retour à la liste des trajets</a>
 {% endblock %}

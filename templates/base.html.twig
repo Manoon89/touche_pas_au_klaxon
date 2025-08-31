@@ -3,42 +3,39 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="none">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>{% block title %} Touche pas au klaxon {% endblock %}</title>
-        {# Mettre plus tard ici le lien pour le bootstrap CSS#}
         {% block stylesheets %}
-        {% endblock %}
-
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
 
     <body>
         <header>
             <nav>
-                <p> TODO Touche pas au klaxon </p>
+                <p class="logo">Touche pas au klaxon </p>
                 {% if is_granted('ROLE_ADMIN') %}
                     <div>
-                        <a href="{{ path('user_index') }}">Utilisateurs</a>
-                        <a href="{{ path('agency_index') }}">Agences</a>
-                        <a href="{{ path('home') }}">Trajets</a>
+                        <a href="{{ path('user_index') }}" class="btn">Utilisateurs</a>
+                        <a href="{{ path('agency_index') }}" class="btn">Agences</a>
+                        <a href="{{ path('home') }}" class="btn">Trajets</a>
                     </div>
                     <div>
-                        Bonjour {{ app.user.firstName }} {{ app.user.lastName }}, <a href="{{ path('logout') }}">Se déconnecter</a>
+                        Bonjour {{ app.user.firstName }} {{ app.user.lastName }}, <a href="{{ path('logout') }}" class="btn">Déconnexion</a>
                     </div>
 
                 {% elseif app.user %}
 
-                    <a href="{{ path('journey_new') }}">Créer un nouveau trajet</a>
+                    <a href="{{ path('journey_new') }}" class="btn">Créer un trajet</a>
                     <div>
-                        Bonjour {{ app.user.firstName }} {{ app.user.lastName }}, <a href="{{ path('logout') }}">Se déconnecter</a>
+                        Bonjour {{ app.user.firstName }} {{ app.user.lastName }}, <a href="{{ path('logout') }}" class="btn">Déconnexion</a>
                     </div>
 
                 {% else %}
 
                     <div>
-                        <a href="{{ path('login') }}">Connexion</a>
+                        <a href="{{ path('login') }}" class="btn">Connexion</a>
                     </div>
 
                 {% endif %}
@@ -55,6 +52,9 @@
             &copy; {{ "now"|date("Y") }} Touche pas au Klaxon
         </footer>
 
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
     </body>
 
 </html>

@@ -4,24 +4,21 @@
 
 {% block body %}
 
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="flash">
-            {{ message }}
-        </div>
-    {% endfor %}
+{% for message in app.flashes('success') %}
+    <div class="flash">
+        {{ message }}
+    </div>
+{% endfor %}
 
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
-
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
 {% endfor %}
 
     <h1>Liste des agences</h1>
 
-    <a href="{{ path('agency_new') }}">Créer une nouvelle agence</a>
+    <a class="btn" href="{{ path('agency_new') }}">Créer une nouvelle agence</a>
 
     <table class="table">
         <thead>
@@ -35,7 +32,7 @@
             <tr>
                 <td>{{ agency.city }}</td>
                 <td>
-                    <a href="{{ path('agency_edit', {'agencyId': agency.id}) }}">Modifier</a>
+                    <a class="btn" href="{{ path('agency_edit', {'agencyId': agency.id}) }}">Modifier</a>
                     {{ include('agency/_delete_form.html.twig', { agency: agency }) }}                
                 </td>
             </tr>

@@ -1,4 +1,4 @@
 <form method="post" action="{{ path('journey_delete', {'journeyId': journey.id}) }}" onsubmit="return confirm('Êtes-vous sûr.e de bien vouloir supprimer ce trajet?');">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ journey.id) }}">
-    <button class="btn">Supprimer ce trajet</button>
+    <button class="btn">Supprimer</button>
 </form>
